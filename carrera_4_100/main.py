@@ -1,22 +1,17 @@
-from threading import Thread, Semaphore
+from threading import Thread, Semaphore, Timer
+import time
+import random
 
 
 class Testigo:
     def __init__(self):
-        semaforo = Semaphore(1)
-        # Crear variable semáforo
+        self.semaforo = Semaphore(1)
 
-    # private Semaphore sem_testigo= new Semaphore(1);
-    # public void tomarTestigo(){
-    #     try {
-    #         sem_testigo.acquire();
-    #     } catch (InterruptedException e) {
-    #         e.printStackTrace();
-    #     }
-    # }
-    # public void soltarTestigo(){
-    #     sem_testigo.release();
-    # }
+    def get(self):
+        self.semaforo.acquire()
+
+    def drop(self):
+        self.semaforo.release()
 
 
 class Atleta:
@@ -28,14 +23,35 @@ class Atleta:
         self.nombre = nombre
         self.testigo = testigo
 
-    # public void run(){
-    #     elTestigo.tomarTestigo();
-    #     System.out.println(this.nombre+" comienza a correr");
-    #     try {
-    #         Thread.sleep((int)(Math.random()*(11-8)+9)*1000);
-    #     } catch (InterruptedException e) {
-    #         e.printStackTrace();
-    #     }
-    #     System.out.println(this.nombre+ " termino la carrera");
-    #     elTestigo.soltarTestigo();
-    # }
+    def stop_race(self, tiempo_carrera):
+        print(self.nombre, "termina la carrera en", tiempo_carrera, "segundos.")
+        self.testigo.drop()
+
+    def start_race(self):
+        self.testigo.get()
+        print(self.nombre, "inicia la carrera.")
+        tiempo_carrera = random.choice(range(9, 12))
+        time.sleep(tiempo_carrera)
+        self.stop_race(tiempo_carrera=tiempo_carrera)
+
+    def run(self):
+        t = Thread(target=self.start_race)
+        t.start()
+        t.join()
+
+
+def main():
+    testigo = Testigo()
+    atletas = [
+        Atleta("Darwin Echevarry", testigo),
+        Atleta("Carl Lewis", testigo),
+        Atleta("Usain Bolt", testigo),
+        Atleta("Asafa Powell", testigo),
+    ]
+
+    for index, atleta in enumerate(atletas):
+        atleta.run()
+
+
+if __name__ == "__main__":
+    main()

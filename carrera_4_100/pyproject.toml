@@ -2,7 +2,7 @@
 name = "carrera_4_100"
 version = "0.1.0"
 description = "Carrera por relevos"
-authors = ["Pablo González Rubio <pjgr2000@gmail.com>"]
+authors = ["Pablo González Rubio <pjgr2000@gmail.com>", "Sergio García González <sergio.gg@usal.es>"]
 
 [tool.poetry.dependencies]
 python = "^3.5.3"

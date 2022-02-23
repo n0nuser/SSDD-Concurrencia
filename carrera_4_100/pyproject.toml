@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "carrera_4_100"
+version = "0.1.0"
+description = "Carrera por relevos"
+authors = ["Pablo González Rubio <pjgr2000@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.5.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
